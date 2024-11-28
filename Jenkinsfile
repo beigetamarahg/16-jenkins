@@ -21,7 +21,7 @@ pipeline {
                   echo 'build succeful'
                   
                   script {
-                    docker.withRegistry('cr.yandex', 'docker-yandex') {
+                    docker.withRegistry('https://cr.yandex', 'docker-yandex') {
                         docker.build("$DOCKER_IMAGE", "--progress=plain")
                         docker.image("$DOCKER_IMAGE").push()
                     }
