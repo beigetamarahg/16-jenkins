@@ -21,7 +21,7 @@ pipeline {
             steps { 
                   script {
                     docker.withRegistry('https://cr.yandex', 'docker-yandex') {
-                       docker.build("$DOCKER_IMAGE", "--progress=plain")
+                       docker.build("$DOCKER_IMAGE", ".")
                         docker.image("$DOCKER_IMAGE").push()
                     }
                   }
