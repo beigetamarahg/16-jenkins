@@ -25,10 +25,10 @@ pipeline {
                   //      echo 'build succeful'
                   //      docker.image("$DOCKER_IMAGE").push()
                   //  }
+                  //}
                 sh 'docker image prune -af || true'
                 sh 'docker build -t $DOCKER_IMAGE .'
                 sh 'docker push $DOCKER_IMAGE'
-                  }
              }
         }
          stage('Deploy via SSH') {
