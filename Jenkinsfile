@@ -19,14 +19,16 @@ pipeline {
         
         stage('Build and Push Docker Image') {
             steps { 
-                  script {
-                    docker.withRegistry('https://cr.yandex', 'docker-yandex') {
-                       docker.build("$DOCKER_IMAGE", ".")
-                        docker.image("$DOCKER_IMAGE").push()
-                    }
-                  }
+                withCredentials([usernamePassword(credentialsId: docker-yandex, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh """
+                    echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin https://cr.yandex
+                    docker build -t $DOCKER_IMAGE .
+                    docker push $DOCKER_IMAGE
+                    """
+                }
              }
         }
+        
          stage('Deploy via SSH') {
             steps {
                 sshagent(['root']) {
