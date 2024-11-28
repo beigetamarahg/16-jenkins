@@ -5,6 +5,7 @@ pipeline {
         DOCKER_IMAGE = 'crpp8mk9kaoas4dk6ouc/nginx-16:latest'
         REMOTE_USER = 'root'
         REMOTE_HOST = '185.125.230.12'
+        REMOTE_PORT = 22
     }
 
     stages {
@@ -32,7 +33,7 @@ pipeline {
             steps {
                 sshagent(['root']) {
                     sh """
-                    ssh ${REMOTE_USER}@${REMOTE_HOST} 'docker pull $DOCKER_IMAGE && docker stop my-app || true && docker rm my-app || true && docker run -d --name my-app -p 80:80 $DOCKER_IMAGE'
+                    ssh -p $REMOTE_PORT ${REMOTE_USER}@${REMOTE_HOST} 'docker pull $DOCKER_IMAGE && docker stop my-app || true && docker rm my-app || true && docker run -d --name my-app -p 80:80 $DOCKER_IMAGE'
                     """
                 }
             }
