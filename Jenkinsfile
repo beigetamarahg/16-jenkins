@@ -18,12 +18,11 @@ pipeline {
         }
         
         stage('Build and Push Docker Image') {
-            steps {
-                  echo 'build succeful'
-                  
+            steps { 
                   script {
                     docker.withRegistry('https://cr.yandex', 'docker-yandex') {
                         docker.build("$DOCKER_IMAGE", "--progress=plain")
+                        echo 'build succeful'
                         docker.image("$DOCKER_IMAGE").push()
                     }
                   }
