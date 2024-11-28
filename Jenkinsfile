@@ -19,15 +19,12 @@ pipeline {
         
         stage('Build and Push Docker Image') {
             steps { 
-                  //script {
-                  //  docker.withRegistry('https://cr.yandex', 'docker-yandex') {
-                  //     docker.build("$DOCKER_IMAGE", "--progress=plain")
-                  //      echo 'build succeful'
-                  //      docker.image("$DOCKER_IMAGE").push()
-                  //  }
-                  //}
-                sh 'docker build -t $DOCKER_IMAGE .'
-                sh 'docker push $DOCKER_IMAGE'
+                  script {
+                    docker.withRegistry('https://cr.yandex', 'docker-yandex') {
+                       docker.build("$DOCKER_IMAGE", "--progress=plain")
+                        docker.image("$DOCKER_IMAGE").push()
+                    }
+                  }
              }
         }
          stage('Deploy via SSH') {
