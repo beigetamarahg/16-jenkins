@@ -19,7 +19,7 @@ pipeline {
         
         stage('Build and Push Docker Image') {
             steps { 
-                withCredentials([usernamePassword(credentialsId: docker-yandex, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                withCredentials([usernamePassword(credentialsId: 'docker-yandex', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh """
                     echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin https://cr.yandex
                     docker build -t $DOCKER_IMAGE .
